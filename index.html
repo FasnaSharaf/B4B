@@ -112,6 +112,19 @@ function getLocation() {
         ]
       }).addTo(map);
 
+      var customMarker = L.divIcon({
+    className: 'custom-icon', 
+    html: '<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>',
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
+});
+
+var AddressPointerIcon = L.icon({
+    iconUrl: 'address_pointer.png',
+    iconSize:     [64, 65], // size of the icon
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    popupAnchor:  [70, -90] // point from which the popup should open relative to the iconAnchor
+});
       // Create a new Layer Group to hold the search results
       const searchResults = L.layerGroup().addTo(map);
 
@@ -122,12 +135,14 @@ function getLocation() {
 
         // Loop through the results and add a marker for each one
         for (let i = data.results.length - 1; i >= 0; i--) {
-          L.marker(data.results[i].latlng)
+          L.marker(data.results[i].latlng,{icon: AddressPointerIcon})
             .addTo(searchResults)
             .bindPopup(data.results[i].text)
             .openPopup();
         }
       });
+      
+      
       /*const searchControl = L.esri.Geocoding.geosearch({
         position: "topright",
         placeholder: "Enter an address or place Eg:Kochi",
